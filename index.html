@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>지폐게산기</title>
+    <title>비만도 계산기</title>
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -15,87 +15,41 @@
   </head>
   <body>
     <header id="header">
-      <h1>Money <strong>Remain</strong></h1>
+      <h1>Fat <strong>Calculator</strong></h1>
     </header>
-    <div class="moneyCalculator">
-      <input type="number" step="10" max="10000000" min="10000" id="money" placeholder="금액을 입력하시오 ex)456780" />
+    <div class="fatCalculator">
+      <input type="number" id="height" class="input" placeholder="키를 입력하세요. ex)180" />
+      <input type="number" id="weight" class="input" placeholder="몸무게를 입력하세요. ex)85.3" />
       <button>계산하기</button>
-      <div class="result">
-        <ul>
-          <li>
-            <dl>
-              <dt>오만원</dt>
-              <dd id="money50000">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>만원</dt>
-              <dd id="money10000">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>오천원</dt>
-              <dd id="money5000">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>천원</dt>
-              <dd id="money1000">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>오백원</dt>
-              <dd id="money500">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>백원</dt>
-              <dd id="money100">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>오십원</dt>
-              <dd id="money50">0</dd>
-            </dl>
-          </li>
-          <li>
-            <dl>
-              <dt>십원</dt>
-              <dd id="money10">0</dd>
-            </dl>
-          </li>
-        </ul>
-      </div>
+      <div class="result"></div>
     </div>
     <script>
       // vanilla
-      const money = document.querySelector("#money");
-      const btn = document.querySelector(".moneyCalculator button");
-      const money50000 = document.querySelector("#money50000");
-      const money10000 = document.querySelector("#money10000");
-      const money5000 = document.querySelector("#money5000");
-      const money1000 = document.querySelector("#money1000");
-      const money500 = document.querySelector("#money500");
-      const money100 = document.querySelector("#money100");
-      const money50 = document.querySelector("#money50");
-      const money10 = document.querySelector("#money10");
+
+      const height = document.querySelector("#height");
+      const weight = document.querySelector("#weight");
+      const btn = document.querySelector(".fatCalculator button");
+      const result = document.querySelector(".result");
       btn.addEventListener("click", function () {
-        const tempMoney = parseInt(money.value);
-        money50000.textContent = parseInt(tempMoney / 50000);
-        money10000.textContent = parseInt((tempMoney % 50000) / 10000);
-        money5000.textContent = parseInt((tempMoney % 10000) / 5000);
-        money1000.textContent = parseInt((tempMoney % 5000) / 1000);
-        money500.textContent = parseInt((tempMoney % 1000) / 500);
-        money100.textContent = parseInt((tempMoney % 500) / 100);
-        money50.textContent = parseInt((tempMoney % 100) / 50);
-        money10.textContent = parseInt((tempMoney % 50) / 10);
-        //console.log("🚀 ~ file: remain.html ~ line 53 ~ tempMoney", tempMoney);
+        const cm = parseInt(height.value) / 10;
+        const kg = parseInt(weight.value);
+        const bmi = (kg / cm ** 2) * 100;
+        let bmiTxt = "";
+        let img = "";
+        if (bmi < 18.5) {
+          bmiTxt = "저체중";
+          img = "under";
+        } else if (bmi >= 18.5 && bmi < 22.9) {
+          bmiTxt = "정상";
+          img = "normal";
+        } else if (bmi >= 23 && bmi < 35) {
+          bmiTxt = "과체중";
+          img = "over";
+        } else {
+          bmiTxt = "고도비만";
+          img = "obese";
+        }
+        result.innerHTML = `<h1>당신의 체질량 지수 :  <strong>${bmi.toFixed(2)}</strong></h1> <img src="images/${img}.png"><p>${bmiTxt}</p>`;
       });
     </script>
   </body>
